@@ -18,8 +18,12 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        template: "index.html",
+        title: "Text Editor Application"
+      }),
       new InjectManifest({
-        swSrc: "src-sw.js",
+        swSrc: "/src-sw.js",
         swDest: "src-sw.js",
         include : [/\.html$/, /\.js$/, /\.css$/]
       }),
@@ -29,20 +33,25 @@ module.exports = () => {
         description: 'PWA to edit text',
         background_color: '#ffffff',
         theme_color: '#3367D6',
-        icons: [
-          {
-            src: './path/to/icon.png',
-            sizes: [96, 128, 192, 256, 384, 512],
-            destination: 'icons',
-          },
-        ],
       }),
     ],
 
     module: {
       rules: [
+        {
+          test: /\.css$/,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+              },
+            },
+          ],
         
-      ],
+        }
+      ]
     },
   };
 };
